@@ -74,6 +74,8 @@ button {
 }
 
 button:active {
-    /* box-shadow: 2px 2px 12px #969393 inset; */
-    box-shadow: 0 0 15px #969393;
+    /* box-shadow: 2px 2px 12px #969393 inset;
+    box-shadow: 0 0 15px #969393; */
+    position: relative;
+    top: 5px;
 }
