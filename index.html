@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/a.css">
+    <title>先乘除後加減版</title>
+
+
+</head>
+
+<body>
+    <!-- <a><a href="https://www.desmos.com/scientific" target="_blank">參考網路上面的計算機</a></p> -->
+    <div id="Bag">
+        <table style="padding: 20px">
+            <tr>
+                <td colspan="4" class="screen" id="formula"></td>
+            </tr>
+            <tr>
+                <td colspan="4"><input type="text" class="screen" id="screen" disabled></td>
+            </tr>
+            <tr>
+                <td><button class="num" id="div7" onclick="numClick('7')">7</button></td>
+                <td><button class="num" onclick="numClick('8')">8</button></td>
+                <td><button class="num" onclick="numClick('9')">9</button></td>
+                <td><button class="operator" onclick="operClick('+')">+</button></td>
+            </tr>
+            <tr>
+                <td><button class="num" onclick="numClick('4')">4</button></td>
+                <td><button class="num" onclick="numClick('5')">5</button></td>
+                <td><button class="num" onclick="numClick('6')">6</button></td>
+                <td><button class="operator" onclick="operClick('-')">-</button></td>
+            </tr>
+            <tr>
+                <td><button class="num" onclick="numClick('1')">1</button></td>
+                <td><button class="num" onclick="numClick('2')">2</button></td>
+                <td><button class="num" onclick="numClick('3')">3</button></td>
+                <td><button class="operator" onclick="operClick('x')">x</button></td>
+            </tr>
+            <tr>
+                <td><button class="clear" onclick="clean()">C</button></td>
+                <td><button class="num" onclick="numClick('0')">0</button></td>
+                <td><button id="result" onclick="ans()">=</button></td>
+                <td><button class="operator" onclick="operClick('÷')">÷</button></td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        var op, firstNum, arr_oper;
+        var total = 0;
+        var temp = "";
+        var arr_num = new Array();
+
+        function numClick(num) {
+            document.getElementById('screen').value = document.getElementById('screen').value + num;
+            firstNum = document.getElementById('screen').value;
+        }
+
+        function operClick(str) {
+            temp = temp + firstNum + str;
+            document.getElementById('formula').innerHTML = temp;
+            arr_num.push(Number(firstNum));
+            op = str;
+            document.getElementById('screen').value = "";
+        }
+
+        function ans() {
+            arr_num.push(Number(firstNum));
+            temp = temp + firstNum;
+            document.getElementById('formula').innerHTML = temp + "=";
+            arr_oper = temp.match(/[^0-9]/g);
+            // console.log(arr_num);
+            // console.log(arr_oper);
+            for (var i = 0; i < arr_oper.length; i++) {
+                if (arr_oper[i] == "x") {
+                    arr_num[i + 1] = Number(arr_num[i]) * Number(arr_num[i + 1]);
+                    arr_num[i] = "";
+                    arr_oper[i] = "";
+                } else if (arr_oper[i] == "÷") {
+                    arr_num[i + 1] = Number(arr_num[i]) / Number(arr_num[i + 1]);
+                    arr_num[i] = "";
+                    arr_oper[i] = "";
+                } else {
+                    arr_num[i] = arr_num[i];
+                    arr_oper[i] = arr_oper[i];
+                }
+
+            }
+            // console.log(arr_num);
+            // console.log(arr_oper);
+
+            for (var i = arr_num.length - 1; i >= 0; i--) {
+                if (arr_num[i] == "") {
+                    arr_num.splice(i, 1);
+                }
+            }
+            for (var i = arr_oper.length - 1; i >= 0; i--) {
+                if (arr_oper[i] == "") {
+                    arr_oper.splice(i, 1);
+                }
+            }
+            // console.log(arr_num);
+            // console.log(arr_oper);
+            // console.log(temp);
+            // console.log(total);
+            if (arr_oper.length > 0) {
+                total = total + Number(arr_num[0]);
+                for (var i = 0; i < arr_oper.length; i++) {
+                    if (arr_oper[i] == "+") {
+                        total = total + Number(arr_num[i + 1]);
+                    } else if (arr_oper[i] == "-") {
+                        total = total - Number(arr_num[i + 1]);
+                    } else {
+                        total = total + Number(arr_num[i + 1]);
+                    }
+                    document.getElementById('screen').value = total;
+                }
+            } else {
+                total = total + Number(arr_num[0]);
+                document.getElementById('screen').value = total;
+            }
+        }
+
+        function clean() {
+            document.getElementById('screen').value = "";
+            document.getElementById('formula').innerHTML = "";
+            temp = "";
+            total = 0;
+            arr_num = [];
+            arr_oper = [];
+        }
+    </script>
+</body>
+
+</html>
