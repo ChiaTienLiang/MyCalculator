@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/a.css">
+    <title>無法先乘除後加減</title>
+
+</head>
+
+<body>
+    <!-- <a><a href="https://www.desmos.com/scientific" target="_blank">參考網路上面的計算機</a></p> -->
+    <div id="Bag">
+        <table style="padding: 20px">
+            <tr>
+                <td colspan="4"><input type="text" id="screen" disabled></td>
+            </tr>
+            <tr>
+                <td><button class="num" id="div7" onclick="numClick('7')">7</button></td>
+                <td><button class="num" onclick="numClick('8')">8</button></td>
+                <td><button class="num" onclick="numClick('9')">9</button></td>
+                <td><button class="operator" onclick="operClick('+')">+</button></td>
+            </tr>
+            <tr>
+                <td><button class="num" onclick="numClick('4')">4</button></td>
+                <td><button class="num" onclick="numClick('5')">5</button></td>
+                <td><button class="num" onclick="numClick('6')">6</button></td>
+                <td><button class="operator" onclick="operClick('-')">-</button></td>
+            </tr>
+            <tr>
+                <td><button class="num" onclick="numClick('1')">1</button></td>
+                <td><button class="num" onclick="numClick('2')">2</button></td>
+                <td><button class="num" onclick="numClick('3')">3</button></td>
+                <td><button class="operator" onclick="operClick('x')">x</button></td>
+            </tr>
+            <tr>
+                <td><button class="clear" onclick="clean()">C</button></td>
+                <td><button class="num" onclick="numClick('0')">0</button></td>
+                <td><button id="result" onclick="ans()">=</button></td>
+                <td><button class="operator" onclick="operClick('÷')">÷</button></td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        var op, firstNum ;
+        var total = 0;
+        var temp = "";
+
+        function numClick(num) { 
+            document.getElementById('screen').value = document.getElementById('screen').value + num;
+            firstNum = document.getElementById('screen').value;
+        }
+        function operClick(str) {
+            temp = temp + firstNum + str;
+            //console.log(temp);
+            document.getElementById('screen').value = "";
+            if (total == 0) {
+                op = str;
+                total = total + parseInt(firstNum);
+            } else if (total > 0) {
+                switch (op) {
+                    case '+':
+                        total = total + parseInt(firstNum);
+                        break;
+                    case '-':
+                        total = total - parseInt(firstNum);
+                        break;
+                    case 'x':
+                        total = total * parseInt(firstNum);
+                        break;
+                    case '÷':
+                        total = total / parseInt(firstNum);
+                        break;
+                }
+            }
+            op = str;
+        }
+
+        function ans() {
+            temp = temp + firstNum;
+            switch (op) {
+                case '+':
+                    total = total + parseInt(firstNum);
+                    break;
+                case '-':
+                    total = total - parseInt(firstNum);
+                    break;
+                case 'x':
+                    total = total * parseInt(firstNum);
+                    break;
+                case '÷':
+                    total = total / parseInt(firstNum);
+                    break;
+            }
+            document.getElementById('screen').value = total;
+            //console.log(temp);
+        }
+
+        function clean() {
+            document.getElementById('screen').value = "";
+            total = 0;
+            temp="";
+        }
+    </script>
+
+
+</body>
+
+</html>
